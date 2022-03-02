@@ -15,15 +15,14 @@ RUN gem install bundler -v $BUNDLER_VERSION
 RUN bundle -v
 RUN bundle install
 
-# カレントディレクトリの内容を$APP_ROOTにコピー
 COPY . $APP_ROOT
 
 # Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
+COPY ./docker/web/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 3000
 
 # Start the main process.
-CMD ["sh", "start-server.sh"]
+CMD ["sh", "./docker/web/start-server.sh"]
