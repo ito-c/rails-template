@@ -30,7 +30,10 @@ http://localhost
 ### コンテナに入る
 
 ```bash
+# 基本
 $ docker-compose exec [コンテナ名] bash
+# Fluentdコンテナ
+$ docker-compose exec fluentd ash
 ```
 
 ### MySQL 接続
