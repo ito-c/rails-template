@@ -1,5 +1,7 @@
 FROM nginx:latest
 
+ENV TZ Asia/Tokyo
+
 # デフォルトで用意されている個別設定ファイルを削除
 RUN rm -f /etc/nginx/conf.d/*
 
