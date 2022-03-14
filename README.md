@@ -2,15 +2,22 @@
 
 ## Overview
 
-- Rails アプリケーションの Docker コンテナ
+- Rails アプリケーションを中心とした Docker コンテナセット
   - Ruby 3.1
   - Rails 7.0
-  - MySQL 8.0
+  - MySQL(for app) 8.0
   - Nginx 1.21.6
+  - Fluentd 1.14
+  - MySQL(for log) 8.0
+
+## Fluentd
+
+- Nginx のアクセスログをログ保管用 MySQL コンテナに保存する
+- ログフォーマットは LTSV
 
 ## Tips
 
-### 起動
+### Rails アプリ起動
 
 ```bash
 $ docker-compose up -d
