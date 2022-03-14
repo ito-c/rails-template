@@ -39,7 +39,7 @@ $ docker-compose exec [コンテナ名] bash
 # rootユーザー
 $ docker-compose exec db bash -c 'mysql -u root -p${MYSQL_ROOT_PASSWORD}'
 # developmentユーザー
-docker-compose exec db bash -c 'mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}'
+$ docker-compose exec db bash -c 'mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}'
 ```
 
 <!-- - System dependencies
