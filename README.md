@@ -1,24 +1,52 @@
-# README
+# rails-template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
 
-Things you may want to cover:
+- Rails アプリケーションの Docker コンテナ
+  - Ruby 3.1
+  - Rails 7.0
+  - MySQL 8.0
+  - Nginx 1.21.6
 
-* Ruby version
+## Tips
 
-* System dependencies
+### 起動
 
-* Configuration
+```bash
+$ docker-compose up -d
+```
 
-* Database creation
+### アクセス
 
-* Database initialization
+http://localhost
 
-* How to run the test suite
+### コンテナに入る
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+$ docker-compose exec [コンテナ名] bash
+```
 
-* Deployment instructions
+### MySQL 接続
 
-* ...
+```bash
+# rootユーザー
+$ docker-compose exec db bash -c 'mysql -u root -p${MYSQL_ROOT_PASSWORD}'
+# developmentユーザー
+docker-compose exec db bash -c 'mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}'
+```
+
+<!-- - System dependencies
+
+- Configuration
+
+- Database creation
+
+- Database initialization
+
+- How to run the test suite
+
+- Services (job queues, cache servers, search engines, etc.)
+
+- Deployment instructions
+
+- ... -->
