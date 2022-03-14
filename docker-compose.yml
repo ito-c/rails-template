@@ -33,8 +33,8 @@ services:
       - '3306:3306'
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - ./volumes/mysql/data/:/var/lib/mysql
-      - ./volumes/mysql/my.cnf:/etc/my.cnf.d/my.cnf
+      - ./volumes/mysql/data/db/:/var/lib/mysql
+      - ./volumes/mysql/conf/db/my.cnf:/etc/my.cnf.d/my.cnf
 
   nginx:
     build:
@@ -45,11 +45,40 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - public:/app/public
       - tmp:/app/tmp
+      - http-log:/var/log/nginx
     ports:
       - "80:80"
     depends_on:
       - web
 
+  fluentd:
+    build:
+      context: .
+      dockerfile: ./docker/fluentd/Dockerfile
+    ports:
+      - 24224:24224
+    volumes:
+      - ./docker/fluentd/fluent.conf:/fluentd/etc/fluent.conf
+      - http-log:/var/log/nginx
+
+  log_db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=log
+      - MYSQL_USER=log
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=passwordpassword
+      - TZ=Asia/Tokyo
+    ports:
+      - '3307:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./volumes/mysql/data/log_db/:/var/lib/mysql
+      - ./volumes/mysql/conf/log_db/my.cnf:/etc/my.cnf.d/my.cnf
+      - ./docker/fluentd/initdb.d:/docker-entrypoint-initdb.d
+
 volumes:
   public:
   tmp:
+  http-log:
