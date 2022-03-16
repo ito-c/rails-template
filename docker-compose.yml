@@ -60,6 +60,8 @@ services:
     volumes:
       - ./docker/fluentd/fluent.conf:/fluentd/etc/fluent.conf
       - http-log:/var/log/nginx
+    depends_on:
+      - log_db
 
   log_db:
     platform: linux/x86_64
@@ -77,6 +79,23 @@ services:
       - ./volumes/mysql/data/log_db/:/var/lib/mysql
       - ./volumes/mysql/conf/log_db/my.cnf:/etc/my.cnf.d/my.cnf
       - ./docker/fluentd/initdb.d:/docker-entrypoint-initdb.d
+
+  metabase:
+    image: metabase/metabase
+    volumes:
+      - "./docker/metabase/data:/metabase-data"
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_DB_TYPE: mysql
+      MB_DB_DBNAME: log
+      MB_DB_PORT: 3306
+      MB_DB_USER: log
+      MB_DB_PASS: password
+      MB_DB_HOST: log_db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - log_db
 
 volumes:
   public:
