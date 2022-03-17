@@ -31,4 +31,5 @@
 /config/master.key
 
 # Ignore mysql data
-/volumes/mysql/data
+/docker/app_db/data
+/docker/log_db/data
